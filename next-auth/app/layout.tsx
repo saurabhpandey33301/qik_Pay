@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
-           <div>
+           <div className="bg-slate-900">
            {children}
            </div>
 

@@ -3,5 +3,5 @@
 import * as auth  from '@/app/lib/auth'
 
 export const signOut = async()=>{
-    return auth.signOut()
+    return auth.signOut({redirect:false})
 }

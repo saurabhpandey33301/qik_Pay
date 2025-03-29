@@ -1,7 +1,7 @@
 import NextAuth, { Session, Account } from "next-auth";
 import {prisma} from "@/app/lib/index"
 
-import { PrismaAdapter } from "@auth/prisma-adapter";
+
 import GitHubProvider from "next-auth/providers/github"
 
 import GoogleProvider from "next-auth/providers/google";
