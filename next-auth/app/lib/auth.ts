@@ -17,6 +17,7 @@ declare module "next-auth" {
             name?: string | null;
             email?: string | null;
             image?: string | null;
+            provider?: string | null;
         };
     }
 }
@@ -33,6 +34,10 @@ export const {handlers:{GET , POST} , auth ,signIn , signOut} = NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           })
     ],
+    pages: {
+      signIn: "/api/auth/signin", 
+      error: "/api/auth/error", 
+    },
     callbacks: {
         async signIn({ user, account }: { user: { email?: string | null; name?: string | null }; account: Account | null }) {
             if (account?.provider === "google") {
@@ -58,12 +63,23 @@ export const {handlers:{GET , POST} , auth ,signIn , signOut} = NextAuth({
             return true;
           },
       
-        async session({ session, token }) {
-            if (session.user && token.sub) {
-                session.user.id = token.sub;
-            }
-            return session;
-        }
+          async session({ session, token }: { session: Session; token: any }) {
+                  if (!session.user || !session.user.email) return session;
+            
+                  const dbUser = await prisma.user.findFirst({
+                    where: {
+                      email: session.user.email
+                    },
+                  });
+            
+                  if (dbUser) {
+                    session.user.id = dbUser.id.toString();
+                    session.user.name = dbUser.name;
+                    session.user.provider = dbUser.password ? "credentials" : "google";
+                  }
+            
+                  return session;
+                },
     },
     
     

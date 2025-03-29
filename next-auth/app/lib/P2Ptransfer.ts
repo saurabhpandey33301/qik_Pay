@@ -28,7 +28,7 @@ export async function P2Ptransfer(to : string, amount : number) {
     await prisma.$transaction(async(tx:any)=>{
         //locking in database during transaction
         //make transaction sequential and only allow second transaction after first transaction is completed or failed.
-        await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
+        await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${(from)} FOR UPDATE`;
 
         const fromBalance = await tx.balance.findUnique({
             where:{

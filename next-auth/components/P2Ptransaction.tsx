@@ -6,8 +6,8 @@ export const P2PTransactions = ({
   transactions: {
     time: Date;
     amount: number;
-    from: number;
-    to: number;
+    from: string;
+    to: string;
     status: string;
     provider: string;
     name: string;

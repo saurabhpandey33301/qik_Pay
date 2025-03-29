@@ -3,8 +3,6 @@
 // import { useRouter } from "next/navigation";
 // import { useEffect, useState } from "react";
 
-
-
 // export default function P2Plist({Alluser}:{Alluser:any}){
 //     const [searchList , setSearchList] = useState(Alluser);
 //     const [search , setSearch] = useState("");
@@ -14,14 +12,14 @@
 //         if (search === "") {
 //             setSearchList(Alluser); // Show all users if search box is empty
 //         } else {
-//             setSearchList(Alluser.filter((user: any) => 
+//             setSearchList(Alluser.filter((user: any) =>
 //                 user.name.toLowerCase().includes(search.toLowerCase()) // Case-insensitive search
 //             ));
 //         }
 //     }, [search, Alluser]); // Run effect when search or Alluser changes
 
 //     return(
-      
+
 //             <div className="flex flex-col justify-around items-center  gap-4">
 //                 <div className="w-2/3">
 //                 <input className="p-3 rounded-xl w-full" type="text" placeholder="name" value={search} onChange={(e)=>{
@@ -31,8 +29,8 @@
 //                <div className="w-full flex justify-center items-center  ">
 //                 <div className=" w-2/3 flex gap-4 flex-col ">
 //                     {searchList.map((user:any) => {
-//                             return <div key={user.id} 
-//                             className="grid grid-cols-6 w-full p-3 rounded-2xl transition-transform duration-300 hover:scale-105 bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg "> 
+//                             return <div key={user.id}
+//                             className="grid grid-cols-6 w-full p-3 rounded-2xl transition-transform duration-300 hover:scale-105 bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg ">
 //                                 <p className="col-span-5 text-white font-mono text-xl ">{user.name}</p>
 //                                 <div className="col-span-1">
 //                                 <Button  onClick={()=>{
@@ -41,28 +39,26 @@
 //                                 }}>Send</Button>
 
 //                                 </div>
-                                
+
 //                             </div>
 //                         })}
 //                 </div>
 //                </div>
 //             </div>
-        
+
 //     )
 // }
-
-
-
-
 
 "use client";
 import React from "react";
 import { Button } from "@/packages/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function P2Plist({ Alluser }: { Alluser: any }) {
-  
+  const session = useSession();
+  const uid = session?.data?.user?.id;
   const [searchList, setSearchList] = useState(Alluser);
   const [search, setSearch] = useState("");
   const router = useRouter();
@@ -95,27 +91,34 @@ export default function P2Plist({ Alluser }: { Alluser: any }) {
       {/* User List */}
       <div className="w-full flex justify-center">
         <div className="w-full max-w-2xl flex flex-col gap-4">
-          {searchList.map((user: any) => (
-            <div
-              key={user.id}
-              className="flex justify-between items-center p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg transition-transform duration-300 hover:scale-105"
-            >
-              {/* Name */}
-              <p className="text-white font-mono text-xl sm:text-lg">
-                {user.name}
-              </p>
+          {searchList
+            .filter((user: any) => user.id !== uid) // ✅ Filter users first
+            .map(
+              (
+                user: any // ✅ Proper map function
+              ) => (
+                <div
+                  key={user.id}
+                  className="flex justify-between items-center p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg transition-transform duration-300 hover:scale-105"
+                >
+                  {/* Name */}
+                  <p className="text-white font-mono text-xl sm:text-lg">
+                    {user.name}
+                  </p>
 
-              {/* Send Button */}
-              <Button
-               
-                onClick={() =>
-                  router.push(`/SendP2P?number=${user.number}&name=${user.name}`)
-                }
-              >
-                Send
-              </Button>
-            </div>
-          ))}
+                  {/* Send Button */}
+                  <Button
+                    onClick={() =>
+                      router.push(
+                        `/SendP2P?email=${user.email}&name=${user.name}`
+                      )
+                    }
+                  >
+                    Send
+                  </Button>
+                </div>
+              )
+            )}
         </div>
       </div>
     </div>

@@ -20,7 +20,6 @@ async function list(){
         return {
             id: user.id,
             name: user.name,
-            number: user.number,
             email: user.email,
         }
     })

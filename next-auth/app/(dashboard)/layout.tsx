@@ -22,11 +22,11 @@ export default function Layout({ children }: { children: React.ReactNode }): JSX
       {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 w-72 h-screen bg-white/10 backdrop-blur-lg shadow-lg border-r rounded-md border-slate-500
-                    transition-transform duration-300 z-50 md:z-auto md:bg-slate-900 md:backdrop-blur-none  md:shadow-none 
+                    transition-transform duration-300 z-50 md:z-auto md:bg-gray-900 md:backdrop-blur-none  md:shadow-none 
                     ${isSidebarOpen ? "translate-x-0" : "-translate-x-72"} md:translate-x-0  `}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center text-4xl text-blue-400 font-extrabold font-mono p-6 hover:cursor-pointer" onClick={()=>{
+        <div className="flex items-center text-4xl text-white font-extrabold font-mono p-6 hover:cursor-pointer" onClick={()=>{
            redirect("/")
         }}>
           <div className="hover:cursor-pointer">QikPay</div>

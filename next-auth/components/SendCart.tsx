@@ -85,7 +85,7 @@ function SendCart() {
   const [amt, setAmt] = useState("");
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
-  const number = searchParams.get("number");
+  const email = searchParams.get("email");
   const name = searchParams.get("name");
 
   return (
@@ -106,8 +106,8 @@ function SendCart() {
                 onClick={async () => {
                   setLoading(true);
                   try {
-                    if (number) {
-                      await P2Ptransfer(number, Number(amt) * 100);
+                    if (email) {
+                      await P2Ptransfer(email, Number(amt) * 100);
                     } else {
                       alert("Number is missing, please try again.");
                     }

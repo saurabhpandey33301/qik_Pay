@@ -8,10 +8,10 @@ import { auth } from "@/app/lib/auth";
 
 export async function createOnrampTxn (amount : number , provider : string) {
    const session = await auth()
-   const userId = session?.user?.id;
+   const uId = session?.user?.id;
    const token = Math.random().toString();
 
-   if(!userId){
+   if(!uId){
        return {
            message : "user not logged in"
        }
@@ -19,8 +19,8 @@ export async function createOnrampTxn (amount : number , provider : string) {
    try {
        await prisma.onRampTransaction.create({
         data:{
-            userId : (userId),
-            amount : amount,
+            userId : uId,
+            amount : Number(amount),
             status : "Processing",
             startTime : new Date(),
             provider : provider,
@@ -44,7 +44,7 @@ export async function createOnrampTxn (amount : number , provider : string) {
             
             prisma.balance.updateMany({
                 where: {
-                    userId: (userId)
+                    userId: (uId)
                 },
                 data: {
                     amount: {
@@ -55,11 +55,11 @@ export async function createOnrampTxn (amount : number , provider : string) {
             }),
             prisma.balance.upsert({
                 where: {
-                  userId: (userId),
+                  userId: (uId),
                 },
                 update: {}, // Prevents updating if user exists
                 create: {
-                  userId: (userId),
+                  userId: (uId),
                   amount: Number(amount),
                   locked: 0,
                 },
