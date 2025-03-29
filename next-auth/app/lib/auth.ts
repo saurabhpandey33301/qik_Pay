@@ -40,9 +40,9 @@ export const {handlers:{GET , POST} , auth ,signIn , signOut} = NextAuth({
     },
     callbacks: {
         async signIn({ user, account }: { user: { email?: string | null; name?: string | null }; account: Account | null }) {
-            if (account?.provider === "google") {
+            if (account?.provider === "google" || account?.provider === "github") {
               if (!user.email) {
-                console.error("Google account is missing an email!");
+                console.error(" account is missing an email!");
                 return false;
               }
       
