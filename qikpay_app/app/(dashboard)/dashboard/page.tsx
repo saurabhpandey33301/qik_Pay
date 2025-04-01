@@ -1,5 +1,5 @@
 
-
+import React from "react";
 import { BalanceCard } from "../../../components/BalanceCard";
 
 import { prisma } from "@/app/lib/index";
