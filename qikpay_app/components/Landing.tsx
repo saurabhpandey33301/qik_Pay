@@ -23,7 +23,7 @@ export default  function QikPayLanding() {
           <div className="flex gap-2 ">
             <button className="mt-6 px-6 py-3 hover:cursor-pointer bg-slate-600 border-2 border-slate-600 hover:border-white rounded-lg text-white text-lg" 
             onClick={()=>{
-              window.open("https://github.com/saurabhpandey33301/Qik-Pay", "_blank");
+              window.open("https://github.com/saurabhpandey33301/qik_Pay", "_blank");
             }}>Source code </button>
           <button onClick={()=>{
              {user ? redirect("/dashboard") : redirect("/api/auth/signin")}
